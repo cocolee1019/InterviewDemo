@@ -15,7 +15,7 @@ import javaBasisc.StaticClassDemo.InnerClass;
  * StaticClassDemo.StaticInnerClass staticInnerClass = new StaticClassDemo.StaticInnerClass();
  * 
  * 非静态的与静态的内部类区别：
- * 1、非静态类为外观类型时，不需要加外部类，而静态类需要，因为静态类是依赖于外部类的。
+ * 1、外观类型为非静态类时，不需要加外部类，而静态类需要，因为静态类是依赖于外部类的。
  * 2、非静态类在实例化时，需要先实例化外部类，而静态类则不需要先实例外部类。
  * 3、非静态内部类，可以引用外部类静态与非静态变量或方法，而静态内部类，只能引用外部类的静态方法和静态变量。
  * 4、非静态内部类不可以拥有static字段，而静态类可以拥有。
