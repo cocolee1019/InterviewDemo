@@ -1,6 +1,6 @@
-package javaBasisc;
+package javaBasis;
 
-import javaBasisc.StaticClassDemo.InnerClass;
+import javaBasis.StaticClassDemo.InnerClass;
 
 /**
  * 内部类的使用:
