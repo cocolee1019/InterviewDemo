@@ -54,9 +54,10 @@ public class _1ThreadBasis_CommonMethod {
 		Thread t1 = new Thread(()->{
 			try {
 				synchronized (lock) {
-						System.out.println("线程1开始休眠3秒");
-						TimeUnit.SECONDS.sleep(3);
+					System.out.println("线程1开始休眠3秒");
+					lock.wait(3000);
 				}
+				System.out.println("线程1退出");
 			} catch (Throwable e) {
 				e.printStackTrace();
 			}
@@ -70,13 +71,13 @@ public class _1ThreadBasis_CommonMethod {
 		});
 		
 		t1.start();
-		TimeUnit.SECONDS.sleep(1);
-		t1.stop();
+//		TimeUnit.SECONDS.sleep(1);
+//		t1.stop();
 		t2.start();
 		int i = 0;
 		while(i++ <= 100000000) {
 			TimeUnit.SECONDS.sleep(1);
-			System.out.println("主线程工作");
+			System.out.printf("主线程工作，输出线程1：%s,和线程2状态：%s\n", t1.getState().name(), t2.getState().name());
 		}
 	}
 	
