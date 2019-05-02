@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -21,9 +22,10 @@ public class CopyFileDemo {
 	
 	public static void main(String[] args) {
 		try {
-//			copyFileMethod1("/home/cocolee/文档/12.txt", "/home/cocolee/文档/23.txt");
-//			copyFileMethod2("/home/cocolee/文档/23.txt", "/home/cocolee/文档/34.txt");
+			copyFileMethod1("/home/cocolee/文档/56.txt", "/home/cocolee/文档/23.txt");
+			copyFileMethod2("/home/cocolee/文档/23.txt", "/home/cocolee/文档/34.txt");
 			copyFileMethod3("/home/cocolee/文档/34.txt", "/home/cocolee/文档/45.txt");
+			copyFileMethod4("/home/cocolee/文档/45.txt", "/home/cocolee/文档/12.txt");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -34,6 +36,7 @@ public class CopyFileDemo {
 	 * @throws IOException 
 	 */
 	public static void copyFileMethod1(String args0, String args1) throws IOException {
+		long timeMill = System.currentTimeMillis();
 		BufferedInputStream bin = null;
 		BufferedOutputStream bout = null;
 		try {
@@ -48,26 +51,51 @@ public class CopyFileDemo {
 			if(bin != null) bin.close();
 			if(bout != null) bout.close();
 		}
+		System.out.println("用时：" + (System.currentTimeMillis() - timeMill));
 	}
 	
 	/**
 	 * 使用FileChannel拷贝文件
 	 */
 	public static void copyFileMethod2(String args0, String args1) throws IOException{
+		long timeMill = System.currentTimeMillis();
 		try(
 			FileChannel inChannel = new FileInputStream(args0).getChannel();
-			FileChannel outChannel = new FileOutputStream(args1).getChannel();){
+			FileChannel outChannel = new FileOutputStream(args1).getChannel();
+		){
 			for(long n=inChannel.size(); n>0;) {
 				long transferred = inChannel.transferTo(inChannel.position(), n, outChannel);
 				n -= transferred;
 			}
 		}
+		System.out.println("用时：" + (System.currentTimeMillis() - timeMill));
 	}
 	
 	/**
 	 * 标准类库
 	 */
 	public static void copyFileMethod3(String args0, String args1) throws IOException{
+		long timeMill = System.currentTimeMillis();
 		Files.copy(new File(args0).toPath(), new File(args1).toPath(), StandardCopyOption.REPLACE_EXISTING);
+		System.out.println("用时：" + (System.currentTimeMillis() - timeMill));
+	}
+	
+	/**
+	 * 使用Channel+byte
+	 */
+	public static void copyFileMethod4(String args0, String args1) throws IOException{
+		long timeMill = System.currentTimeMillis();
+		try(
+			FileChannel channel1 = new FileInputStream(new File(args0)).getChannel();
+			FileChannel channel2 = new FileOutputStream(new File(args1)).getChannel();
+		){
+			ByteBuffer buff = ByteBuffer.allocate(1024);
+			while(channel1.read(buff) != -1) {
+				buff.flip();
+				channel2.write(buff);
+				buff.clear();
+			}
+		}
+		System.out.println("用时：" + (System.currentTimeMillis() - timeMill));
 	}
 }
