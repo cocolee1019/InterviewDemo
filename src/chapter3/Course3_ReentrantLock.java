@@ -1,4 +1,4 @@
-package threaddemo;
+package chapter3;
 
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -27,13 +27,13 @@ import java.util.concurrent.locks.ReentrantLock;
  * 
  * 大神关于ReentranLock的讲解：https://blog.csdn.net/lsgqjh/article/details/63685058
  */
-public class ReentrantLockDemo {
+public class Course3_ReentrantLock {
 
 	static ReentrantLock lock = new ReentrantLock();
 	
 	public static void main(String[] args) {
-		Thread t1 = new Thread(ReentrantLockDemo::doSomethins);
-		Thread t2 = new Thread(ReentrantLockDemo::doSomethins);
+		Thread t1 = new Thread(Course3_ReentrantLock::doSomethins);
+		Thread t2 = new Thread(Course3_ReentrantLock::doSomethins);
 		
 		t1.start();
 		t2.start();

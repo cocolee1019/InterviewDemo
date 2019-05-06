@@ -1,6 +1,4 @@
-package javaBasis;
-
-import javaBasis.StaticClassDemo.InnerClass;
+package chapter1;
 
 /**
  * 内部类的使用:
@@ -80,13 +78,13 @@ class StaticClassDemo {
 	}
 }
 
-public class PClass {
+public class Course1_InnerClass {
 	public static void main(String[] args) {
 		//构造一个外部类
 		StaticClassDemo demo = new StaticClassDemo();
 		
 		//其它类中，使用内部类，需要先创建内部类中，所在的外部类。
-		InnerClass innerClass = new StaticClassDemo().new InnerClass();
+		chapter1.StaticClassDemo.InnerClass innerClass = new StaticClassDemo().new InnerClass();
 		
 		//在其它类中，使用静态内部类，不需要创建外部类实例。
 		StaticClassDemo.StaticInnerClass staticInner = new StaticClassDemo.StaticInnerClass();

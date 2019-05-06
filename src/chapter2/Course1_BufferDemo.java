@@ -1,4 +1,4 @@
-package ioBasis;
+package chapter2;
 
 import java.nio.ByteBuffer;
 
@@ -8,7 +8,7 @@ import java.nio.ByteBuffer;
  * ByteBuffer、ShortBuffer、IntegerBuffer、LongBuffer、FloatBuffer、DoubleBuffer、CharBuffer
  *
  */
-public class BufferDemo {
+public class Course1_BufferDemo {
 
 	public static void main(String[] args) {
 		

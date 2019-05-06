@@ -1,4 +1,4 @@
-package ioBasis;
+package chapter2;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -25,7 +25,7 @@ import java.io.IOException;
  * AIO：异步非阻塞IO。在1.7中引入，异步非阻塞IO基于事件机制和回调机制。
  * 
  */
-public class JavaBasisIO {
+public class Course3_IO {
 
 	public static void main(String[] args) throws IOException {
 		ioDemo("/home/cocolee/文档/a.txt");

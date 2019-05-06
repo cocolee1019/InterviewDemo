@@ -1,4 +1,4 @@
-package ioBasis;
+package chapter2;
 
 import java.io.IOException;
 import java.net.InetAddress;

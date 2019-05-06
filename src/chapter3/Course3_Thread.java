@@ -1,4 +1,4 @@
-package threaddemo;
+package chapter3;
 
 import java.util.Scanner;
 import java.util.concurrent.locks.LockSupport;
@@ -7,10 +7,10 @@ import java.util.concurrent.locks.LockSupport;
  * LockSupport类的使用
  *
  */
-public class _1ThreadBasis_LockSupport {
+public class Course3_Thread {
 
 	public static void main(String[] args) throws InterruptedException {
-		Thread thread = new Thread(_1ThreadBasis_LockSupport::sayHello);
+		Thread thread = new Thread(Course3_Thread::sayHello);
 		thread.start();
 		int i = 0;
 		while(thread.getState() != Thread.State.TERMINATED) {

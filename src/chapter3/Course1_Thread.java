@@ -1,6 +1,5 @@
-package threaddemo;
+package chapter3;
 
-import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -36,7 +35,7 @@ import java.util.concurrent.TimeUnit;
  *		很多问题，比如在线程finally中释放资源时抛出ThreadDeath异常，会导致资源释放失败，比如在synchronized中抛出异常
  *		会使锁提前被释放，而这种释放是不可控的。
  */
-public class _1ThreadBasis_CommonMethod {
+public class Course1_Thread {
 
 	public static void main(String[] args) throws InterruptedException {
 //		main1();
@@ -83,7 +82,7 @@ public class _1ThreadBasis_CommonMethod {
 	
 	//suspend和resume
 	private static void main3() {
-		Thread thread = new Thread(_1ThreadBasis_CommonMethod::sayHello3);
+		Thread thread = new Thread(Course1_Thread::sayHello3);
 		thread.start();
 		int i = 0;
 		while(thread.getState() != Thread.State.TERMINATED) {
@@ -102,8 +101,8 @@ public class _1ThreadBasis_CommonMethod {
 	
 	//解答第2问
 	private static void main2() {
-		Thread t1 = new Thread(_1ThreadBasis_CommonMethod::sayHello2);
-		Thread t2 = new Thread(_1ThreadBasis_CommonMethod::sayHello2);
+		Thread t1 = new Thread(Course1_Thread::sayHello2);
+		Thread t2 = new Thread(Course1_Thread::sayHello2);
 		t1.start();
 		t2.start();
 		while(t1.getState() != Thread.State.TERMINATED) {
@@ -118,8 +117,8 @@ public class _1ThreadBasis_CommonMethod {
 	
 	//main1，解答第1问
 	private static void main1() {
-		Thread t1 = new Thread(_1ThreadBasis_CommonMethod::sayHello);
-		Thread t2 = new Thread(_1ThreadBasis_CommonMethod::sayHello);
+		Thread t1 = new Thread(Course1_Thread::sayHello);
+		Thread t2 = new Thread(Course1_Thread::sayHello);
 		t1.start();
 		t2.start();
 		int i = 0, j = 0;

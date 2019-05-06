@@ -1,4 +1,4 @@
-package ioBasis;
+package chapter2;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -18,7 +18,7 @@ import java.nio.file.StandardCopyOption;
  * 数据传输不需要用户态的参与，省去了上下文切换的开销和不必要的内存拷贝，进而可能提高应用拷贝性能。
  * 3、使用java.nio.file.Files中的静态方法copy：copy方法最后调用的是ChannelInputStream.read()。
  */
-public class CopyFileDemo {
+public class Course2_CopyFile {
 	
 	public static void main(String[] args) {
 		try {

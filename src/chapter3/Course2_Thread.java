@@ -1,4 +1,4 @@
-package threaddemo;
+package chapter3;
 
 import java.util.Scanner;
 
@@ -12,11 +12,11 @@ import java.util.Scanner;
  *	TIMED_WAITING：Object.wait(time)、Thread.sleep(time)、Thread.join(time)、LockSupport.parkNanos、LockSupport.parkUntil。
  *	TERMINATED：执行完成后的状态。
  */
-public class _1ThreadBasis {
+public class Course2_Thread {
 
 	public static void main(String[] args) throws InterruptedException {
 		//使用方法引用的方法传入
-		Thread thread = new Thread(_1ThreadBasis::sayHello);
+		Thread thread = new Thread(Course2_Thread::sayHello);
 		//New
 		System.out.println("befor：" + thread.getState());
 		
@@ -44,8 +44,8 @@ public class _1ThreadBasis {
 		System.out.println("开始重现线程的BLOCKED状态");
 		
 		//重现BLOCKED状态
-		Thread t1 = new Thread(_1ThreadBasis::run);
-		Thread t2 = new Thread(_1ThreadBasis::run);
+		Thread t1 = new Thread(Course2_Thread::run);
+		Thread t2 = new Thread(Course2_Thread::run);
 		t1.setName("t1");
 		t2.setName("t2");
 		//启动线程

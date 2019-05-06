@@ -1,4 +1,4 @@
-package ioBasis;
+package chapter2;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
-public class NIOClient {
+public class Course4_NIOClient {
 
 	
 	public static void main(String[] args) throws IOException {
