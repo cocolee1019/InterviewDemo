@@ -1,9 +1,9 @@
 package chapter4;
 
-public class ReflectDemoClass {
+public class ReflectDemoClass2 {
 
 	static {
-		System.out.println("啊~我被引用啦。");
+		System.out.println("我是ReflectDemoClass2，  我被引用啦。");
 	}
 	
 	private void sayHello() {

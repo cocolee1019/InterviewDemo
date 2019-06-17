@@ -7,15 +7,24 @@ import java.lang.reflect.Method;
  * 反射：
  * 		1、Class对象。
  * 		    Class对象是反射的基础，该对象没有public构造器，获得Class实例有三种方式：
- * 			obj.getClass()、Clazz.class、Class.forName("");
+ * 			obj.getClass()、Clazz.class（类字面常量）、Class.forName("");
  * 			Class对象的创建是虚拟机在加载对象时， 自动调用类加载器的defineClass方法创建。
  * 
  * 		2、利用Class对象调用私有方法。callPrivate();
- */
+ * 		
+ * 		3、获得基本类型（primitive type）的Class对象。  ==> primitiveTypeDemo();
+ * 
+ * 注意：
+ * 		1、使用类字面常量（Clazz.class）获取class时，不会初始化class。
+ * 		2、Class.forName("")会立即初始化。    
+ * 		1、2证明在classInitDemo()
+ */			
 public class Course1_Reflect {
 
 	public static void main(String[] args) throws IllegalArgumentException, InvocationTargetException, InstantiationException, IllegalAccessException {
-		callPrivate();
+//		callPrivate();
+//		primitiveTypeDemo();
+		classInitDemo();
 	}
 	
 	/**
@@ -39,5 +48,28 @@ public class Course1_Reflect {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	private static void primitiveTypeDemo() {
+		Class<?> clazz = Boolean.TYPE;  //等价于Boolean.TYPE
+		Class<?> voidClazz = void.class;   //等价于Void.TYPE
+		
+		System.out.println(clazz.getCanonicalName());
+		for (Method m : clazz.getMethods()) {
+			System.out.println(m);
+		}
+	}
+	
+	private static void classInitDemo() {
+		
+		Class<?> clazz = ReflectDemoClass.class;
+		System.out.println("ReflectDemoClass类未被加载？   yes");
+		
+		try {
+			Class<?> clazz2 = Class.forName("chapter4.ReflectDemoClass2");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("ReflectDemoClass2类未被加载？   no");
 	}
 }
