@@ -5,9 +5,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 /**
- * 1¡¢JDKµÄ¶¯Ì¬´úÀí£¬±ØĞèÒªÊµÏÖInvocationHandler½Ó¿Ú¡£
- * 2¡¢½¨Á¢´úÀí¶ÔÏóÓëÕæÊµ¶ÔÏóµÄ¹ØÏµ£¬ÔÚ±¾ÀıÖĞ£¬Í¨¹ıbind·½·¨½øĞĞ°ó¶¨¡£
- * 3¡¢ÊµÏÖ´úÀíÂß¼­µÄ·½·¨£¬ ÔÚ±¾ÀıÖĞ£¬´úÀíÂß¼­ÊµÏÖÔÚinvokeÖĞ¡£
+ * 1ã€JDKçš„åŠ¨æ€ä»£ç†ï¼Œå¿…éœ€è¦å®ç°InvocationHandleræ¥å£ã€‚
+ * 2ã€å»ºç«‹ä»£ç†å¯¹è±¡ä¸çœŸå®å¯¹è±¡çš„å…³ç³»ï¼Œåœ¨æœ¬ä¾‹ä¸­ï¼Œé€šè¿‡bindæ–¹æ³•è¿›è¡Œç»‘å®šã€‚
+ * 3ã€å®ç°ä»£ç†é€»è¾‘çš„æ–¹æ³•ï¼Œ åœ¨æœ¬ä¾‹ä¸­ï¼Œä»£ç†é€»è¾‘å®ç°åœ¨invokeä¸­ã€‚
  */
 public class JdkProxyExample implements InvocationHandler {
 
@@ -21,10 +21,10 @@ public class JdkProxyExample implements InvocationHandler {
 
 	@Override
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-		System.out.println("½øÈë´úÀíÂß¼­·½·¨");
-		System.out.println("ÔÚµ÷¶ÈÕæÊµ¶ÔÏóÖ®Ç°µÄ·şÎñ");
+		System.out.println("è¿›å…¥ä»£ç†é€»è¾‘æ–¹æ³•");
+		System.out.println("åœ¨è°ƒåº¦çœŸå®å¯¹è±¡ä¹‹å‰çš„æœåŠ¡");
 		Object obj = method.invoke(target, args);
-		System.out.println("ÔÚµ÷¶ÈÖ®ºó");
+		System.out.println("åœ¨è°ƒåº¦ä¹‹å");
 		return obj;
 	}
 
