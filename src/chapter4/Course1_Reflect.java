@@ -11,20 +11,24 @@ import java.lang.reflect.Method;
  * 			Class对象的创建是虚拟机在加载对象时， 自动调用类加载器的defineClass方法创建。
  * 
  * 		2、利用Class对象调用私有方法。callPrivate();
+ * 		  使用newInstance()方法时，对应的Class对象需要提供默认的构造方法。
  * 		
  * 		3、获得基本类型（primitive type）的Class对象。  ==> primitiveTypeDemo();
  * 
  * 注意：
  * 		1、使用类字面常量（Clazz.class）获取class时，不会初始化class。
  * 		2、Class.forName("")会立即初始化。    
- * 		1、2证明在classInitDemo()
+ * 			1、2证明在classInitDemo()
+ * 		3、类初始化的过程中，如果static final变量的值是一个编译期常量，引用该变量，不会使程序初始，
+ * 		      如果该值非编译期常量，引用该变量，则会引起初始化。
+ * 	
  */			
 public class Course1_Reflect {
 
 	public static void main(String[] args) throws IllegalArgumentException, InvocationTargetException, InstantiationException, IllegalAccessException {
-//		callPrivate();
+		callPrivate();
 //		primitiveTypeDemo();
-		classInitDemo();
+//		classInitDemo();
 	}
 	
 	/**
