@@ -1,6 +1,6 @@
 package chapter4;
 
-public class HelloWorldImpl implements HelloWorld{
+public class HelloWorldImpl extends HelloWorldSuperClass implements HelloWorld{
 
 	@Override
 	public void sayHello() {
