@@ -13,5 +13,6 @@ public class Course3_Proxy {
 		JdkProxyExample jdk = new JdkProxyExample();
 		HelloWorld proxy = (HelloWorld) jdk.bind(new HelloWorldImpl());
 		proxy.sayHello();
+		System.out.println(proxy.toString());
 	}
 }

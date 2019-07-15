@@ -19,7 +19,7 @@ package chapter4;
  *	
  *	4、当在Class中使用泛型时，clazz.newInstance()会返回确切的类型。
  */
-public class Course2_GenericInReflect {
+public class Course2_GenericInClass {
 
 	public static void main(String[] args) throws InstantiationException, IllegalAccessException {
 		
