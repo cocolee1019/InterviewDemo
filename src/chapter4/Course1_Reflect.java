@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
  * 反射：
  * 		1、Class对象。
  * 		    Class对象是反射的基础，该对象没有public构造器，获得Class实例有三种方式：
- * 			obj.getClass()、Clazz.class（类字面常量）、Class.forName("");
+ * 			obj.getClass()、Clazz.class（类字面常量）、Class.forName("")、ClassLoader.loadClass("ClassName");
  * 			Class对象的创建是虚拟机在加载对象时， 自动调用类加载器的defineClass方法创建。
  * 
  * 		2、利用Class对象调用私有方法。callPrivate();
