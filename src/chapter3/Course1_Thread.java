@@ -19,22 +19,26 @@ import java.util.concurrent.TimeUnit;
  * <p>
  * <p>
  * 问题：
- * 1、调用Object.wait后，会释放当前monitor的锁吗？
+ *  1、调用Object.wait后，会释放当前monitor的锁吗？
  * 答：会释放Object的monitor，即表示其它线程的同步块使用了相同的Object为锁时，
  * 可以进入了。当其它线程调用Object.notify后，且其它线程已退出同步代码块或同步代码方法后，
  * monitor所在线程状态会重新抢占CPU时间。
+ *
  * <p>
  * 2、Object.wait(timeout)会释放当前锁？
  * 答：会释放Object的monitor。同1问一样。
+ *
  * <p>
  * 3、调用Thread.sleep()后，线程的状态是什么？如果在同步块中调用，是否会释放锁？
  * 答：调用Thread.sleep后，线程状态为TIMED_WAITING。在同步块中调用sleep方法，不会释放锁。
+ *
  * <p>
  * 4、为什么Thread.stop、Thread.suspend和Thread.resume会过期？
  * 答：suspend不会释放monitor锁，容易造成线程死锁的状况。例如a线程锁定Object后，被suspend，b线程要resume a线程，
  * 但是在resume之前，又要请求Object的锁，此时便会造成死锁。
  * stop会在线程任何位置抛出异常，使线程中止。这便会出现很多问题，比如在线程finally中释放资源时抛出ThreadDeath异常，
  * 会导致资源释放失败，比如在synchronized中抛出异常会使锁提前被释放，而这种释放是不可控的。
+ *
  * <p>
  * <p>
  * 5、如何使一个在循环的线程退出？
