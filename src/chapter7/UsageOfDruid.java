@@ -43,10 +43,10 @@ public class UsageOfDruid {
         DruidDataSource dataSource = new DruidDataSource();
 
         dataSource.configFromPropety(properties);
-        dataSource.configFromPropety(properties2);
-        Connection connection = dataSource.getConnection();
+
+        Connection connection = dataSource.getConnection("test", "1234");
         Connection connection2 = dataSource.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("select * from view_test");
+        PreparedStatement preparedStatement = connection.prepareStatement("select * from basic_role");
         preparedStatement.execute();
         ResultSet resultSet = preparedStatement.getResultSet();
         while (resultSet.next()) {
@@ -54,6 +54,7 @@ public class UsageOfDruid {
         }
 
         connection.close();
+        connection2.close();
     }
 
     private static void println(ResultSet resultSet) throws SQLException {

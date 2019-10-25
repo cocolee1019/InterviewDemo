@@ -37,6 +37,8 @@ public class Course3_ReentrantLock {
 		
 		t1.start();
 		t2.start();
+
+
 	}
 	
 	
