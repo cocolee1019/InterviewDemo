@@ -2,3 +2,4 @@
 .setting
 .idea
 *.iml
+/target/
