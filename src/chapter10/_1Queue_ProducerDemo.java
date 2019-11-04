@@ -5,10 +5,7 @@ import org.apache.activemq.command.ActiveMQMessage;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.command.ActiveMQTextMessage;
 
-import javax.jms.Connection;
-import javax.jms.JMSException;
-import javax.jms.MessageProducer;
-import javax.jms.Session;
+import javax.jms.*;
 
 /**
  * active mq基础知识：
@@ -39,6 +36,11 @@ import javax.jms.Session;
  *          receive方法有两个，第一个没有参数，表示会无限等待，直到接收到消息后，才往下走。
  *          第二个拥有一个long类型参数，表示等待毫秒数，过了这个时间，消息未到达，将会自动退出。
  *
+ *      消息的三个部分：
+ *          消息头
+ *          消息体
+ *          消息属性
+ *
  * 问题：
  *   1、根据实践，发现创建一个队列，最简单的方式是只需要指定名字即可，消费一个队列，最简单的方式也是只需要指定队列名称即可，
  *      这样做，会不会太不安全？假如会，该如何避免？
@@ -47,6 +49,9 @@ import javax.jms.Session;
  *
  *   2、consumer.receive()是同步方式，请问还有其它的接收方式吗？
  *      答：使用messageListener可以监听消息，可以异步接收。在主线程中，开启消息监听后，会立即退出，而不会阻塞。
+ *
+ *   3、消息在未到消费的过程时，Jms服务出现了异常，该如何保存消息的安全性?
+ *      答：可以设置消息的持久模式：ActiveMQMessage.setJMSDeliveryMode()。
  */
 public class _1Queue_ProducerDemo {
 
@@ -61,9 +66,19 @@ public class _1Queue_ProducerDemo {
         Connection connection = connFacotry.createConnection();
         Session session = connection.createSession(false, 1);
         MessageProducer producer = session.createProducer(new ActiveMQQueue(QUEUE_NAME));
+
+        //设置消息的投递方式为非持久化（默认是持久模式）
+        producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+
         for (int i=1; i<=3; i++) {
             ActiveMQTextMessage activeMQTextMessage = new ActiveMQTextMessage();
-            activeMQTextMessage.setText("hhhhhhhhhhhhhhhhhhhhhhhhhhh");
+            //设置持久和非持久模式
+            //activeMQTextMessage.setJMSDeliveryMode();
+            //设置消息的过期时间
+            //activeMQTextMessage.setExpiration();
+            //设置消息的优先级，数字越大消息优秀级最高，JMS规范共有9级【0~9】
+            //activeMQTextMessage.setPriority();
+            activeMQTextMessage.setText("hhhhhhhhhhhh/**/hhhhhhhhhhhhhhh");
             producer.send(activeMQTextMessage);
         }
 
