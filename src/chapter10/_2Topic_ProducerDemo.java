@@ -27,7 +27,7 @@ import javax.jms.Session;
  */
 public class _2Topic_ProducerDemo {
 
-    private static final String name = "toptic_of_users";
+    private static final String name = "topic_of_users";
 
     public static void main(String[] args) throws JMSException {
         //1、创建工厂

@@ -52,6 +52,15 @@ import javax.jms.*;
  *
  *   3、消息在未到消费的过程时，Jms服务出现了异常，该如何保存消息的安全性?
  *      答：可以设置消息的持久模式：ActiveMQMessage.setJMSDeliveryMode()。
+ *
+ *   4、生产者在向queue或topic投递数据时，如何保证一批数据被同时提交或同时失败？
+ *      答：在通过connection创建session时，可以设置transacted参数为true，表示开启事务。在开启事务后，则需要手动
+ *          执行commit，才会将消息提交到queue或topic。
+ *
+ *          生产者的事务是为了保证数据批量提交时不丢失数据。
+ *          消费者的事务是为了保证消费数据时，批量完成。假如不执行commit，则在队列中的消息并不会被成功消费。
+ *          注意，需要用commit来提交事务。
+ *
  */
 public class _1Queue_ProducerDemo {
 
@@ -64,7 +73,8 @@ public class _1Queue_ProducerDemo {
          */
         ActiveMQConnectionFactory connFacotry = new ActiveMQConnectionFactory();
         Connection connection = connFacotry.createConnection();
-        Session session = connection.createSession(false, 1);
+        //transacted表示事务、 acknowledgeMode表示签收
+        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         MessageProducer producer = session.createProducer(new ActiveMQQueue(QUEUE_NAME));
 
         //设置消息的投递方式为非持久化（默认是持久模式）
