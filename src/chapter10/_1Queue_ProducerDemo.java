@@ -73,7 +73,9 @@ public class _1Queue_ProducerDemo {
          */
         ActiveMQConnectionFactory connFacotry = new ActiveMQConnectionFactory();
         Connection connection = connFacotry.createConnection();
-        //transacted表示事务、 acknowledgeMode表示签收
+        //transacted表示事务
+        // acknowledgeMode表示签收：签收主要是对消费的设置，如果设置为手动签收，则需要在代码上text.acknowledge()
+        //在事务模式下，自动签收无效，会被转为自动签收。
         Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         MessageProducer producer = session.createProducer(new ActiveMQQueue(QUEUE_NAME));
 
