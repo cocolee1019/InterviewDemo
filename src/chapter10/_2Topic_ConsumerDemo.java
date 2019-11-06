@@ -11,14 +11,15 @@ import javax.jms.Session;
 
 public class _2Topic_ConsumerDemo {
 
-    private static final String name = "toptic_of_users";
+    private static final String name = "topic_of_users";
+    private static final String url = "tcp://localhost:61619";
 
     public static void main(String[] args) throws JMSException {
 
         /*
            订阅topic
          */
-        ActiveMQConnectionFactory connFactory = new ActiveMQConnectionFactory();
+        ActiveMQConnectionFactory connFactory = new ActiveMQConnectionFactory(url);
         Connection connection = connFactory.createConnection();
         connection.start();
         Session session = connection.createSession(false, 1);
@@ -36,6 +37,7 @@ public class _2Topic_ConsumerDemo {
         //异步接收消息的方式，使用MsgListener
         consumer.setMessageListener((msg) -> {
             System.out.println(msg.toString());
+//            msg.acknowledge();
         });
 
         System.out.println("-------主线程结束-------");

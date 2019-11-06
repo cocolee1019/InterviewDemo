@@ -65,7 +65,6 @@ import javax.jms.*;
 public class _1Queue_ProducerDemo {
 
     private static final String QUEUE_NAME = "queue_of_ssss";
-
     public static void main(String[] args) throws JMSException {
 
         /*
