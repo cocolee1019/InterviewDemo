@@ -56,7 +56,7 @@ public class RxJavaDemo1 {
         }).subscribe(System.out::println, Throwable::printStackTrace);
 
  */
-        Flowable.fromCallable(() -> {
+        /*Flowable.fromCallable(() -> {
             Thread.sleep(1000); //  imitate expensive computation
             return "Done";})
                 // Run I/O-like or blocking operations on a dynamically changing set of threads.
@@ -64,7 +64,17 @@ public class RxJavaDemo1 {
                 // Run work on a single thread in a sequential and FIFO manner.
                 .observeOn(Schedulers.single())
                 .subscribe(System.out::println, Throwable::printStackTrace);
+
         System.out.println("end");
+
         Thread.sleep(2000); // <--- wait for the flow to finish
+         */
+
+        //  Concurrency within a flow
+        Flowable.range(1, 10)
+                .observeOn(Schedulers.computation())
+                .map(v -> v * v)
+                .blockingSubscribe(System.out::println);
+
     }
 }
