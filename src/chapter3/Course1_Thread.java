@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
  * Thread.interrupted：类方法，返回当前线程的中断状态，并且重置中断标记。
  * isInterrupted：返回线程的中断状态，中断标记不受影响。
  * interrupt：中断线程的运行。
- * Object.wait：使拥有当前对象的monitor的线程进行WAITING状态，并且释放当前锁。需要在同步代码块或同步代码方法中使用。
+ * Object.wait：使拥有当前对象的monitor的线程进入WAITING状态，并且释放当前锁。需要在同步代码块或同步代码方法中使用。
  * Object.notify：随机唤醒调用Object.wait方法的线程。需要在同步代码块中使用。
  * Object.notifyAll：唤醒所有调用Object.wait方法的线程。需要在同步代码块中使用。
  * Thread.sleep：使线程睡眠。
