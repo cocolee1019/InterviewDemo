@@ -10,6 +10,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  * 响应式编程学习 <br>
  * 开始学习响应式编程时，带着下面几个疑问：<br>
  * 1、响应式编程能为我们带来什么好处？<br>
+ *    1.1、响应式编程是非阻塞式编程方法。非阻塞式的优化是服务器可以处理更多的客户端请求。
+ *    1.2、流式编程方式。流式编程可以使程序员专注于业务逻辑处理，而不用关注数据来源，并且使代码更清晰。
  * 2、响应式编程的使用场景。
  * <p></p>
      * 本次学习响应式编程的框架是Rxjava，Rxjava是对java vm响应式编程的扩展，该库用一个可观察的序列
@@ -69,42 +71,42 @@ public class _1RxJavaHelloWorld {
 //                }
             }
         }).map((t) -> (Long) t / 1000)
-                //Observable被订， 第一个参数：onNext应用、 第二个参数：onError应用。详情见文档。
-                .subscribe(new Observer<Object>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        System.out.println("---订阅---");
-                        //使标isDisposed标记置为false，并且onNext不再接受事件。
-                        //d.dispose();
-                    }
+        //Observable被订， 第一个参数：onNext应用、 第二个参数：onError应用。详情见文档。
+        .subscribe(new Observer<Object>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                System.out.println("---订阅---");
+                //使标isDisposed标记置为false，并且onNext不再接受事件。
+                //d.dispose();
+            }
 
-                    @Override
-                    public void onNext(Object o) {
-                        System.out.println("----on next----");
-                        System.out.println(o);
-                    }
+            @Override
+            public void onNext(Object o) {
+                System.out.println("----on next----");
+                System.out.println(o);
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        System.out.println("错误发生");
-                        e.printStackTrace();
-                    }
+            @Override
+            public void onError(Throwable e) {
+                System.out.println("错误发生");
+                e.printStackTrace();
+            }
 
-                    @Override
-                    public void onComplete() {
-                        System.out.println("onComplete被执行");
-                    }
-                });
+            @Override
+            public void onComplete() {
+                System.out.println("onComplete被执行");
+            }
+        });
 
         Flowable.fromCallable(() -> {
             Thread.sleep(1000); //  imitate expensive computation
             return "Done";
         })
-                // Run I/O-like or blocking operations on a dynamically changing set of threads.
-                .subscribeOn(Schedulers.io())
-                // Run work on a single thread in a sequential and FIFO manner.
-                .observeOn(Schedulers.single())
-                .subscribe(System.out::println, Throwable::printStackTrace);
+        // Run I/O-like or blocking operations on a dynamically changing set of threads.
+        .subscribeOn(Schedulers.io())
+        // Run work on a single thread in a sequential and FIFO manner.
+        .observeOn(Schedulers.single())
+        .subscribe(System.out::println, Throwable::printStackTrace);
 
         System.out.println("end");
 
