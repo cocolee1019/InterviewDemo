@@ -62,7 +62,11 @@ public class _2RequestDemoOfRxJava {
                     return s = "---->" + s;
                 })
                 .observeOn(Schedulers.io())
-                //将观察者绑定到该线程中操作，即使用了其它线程，达到异步操作
+                .map((s) -> {
+                    System.out.println(Thread.currentThread().getName() + "  <--  管道中2");
+                    return s = "---->" + s;
+                })
+                //下面这个subscribeOn完全无效。
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<Object>() {
                     @Override
