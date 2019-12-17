@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.stream.Stream;
 
 /**
- * 操作符
+ * 并发， 只有Flowable才可以并发。
  * @author ljj
  * 2019/12/14 10:26
  */
-public class _4Operation {
+public class _4Parallel {
 
     public static void main(String[] args) {
 
@@ -28,7 +28,7 @@ public class _4Operation {
         */
         Flowable.range(1, 10)
                 .observeOn(Schedulers.computation())
-                .map( t -> t*t)
+                .map(t -> t*t)
                 .blockingSubscribe(System.out::println);
 
         System.out.println("----------");

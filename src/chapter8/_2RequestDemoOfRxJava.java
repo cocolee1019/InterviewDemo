@@ -1,8 +1,11 @@
 package chapter8;
 
+import io.reactivex.rxjava3.core.BackpressureStrategy;
+import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.parallel.ParallelFlowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import uitls.HttpUtils;
 
@@ -35,62 +38,38 @@ import java.io.IOException;
 public class _2RequestDemoOfRxJava {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        /**
-         * 验证猜想1
-         */
-        Observable.create((t) -> {
+
+        Flowable.create((t) -> {
             //产生流
             int i = 0;
-            while (i++ <= 3) {
+            while (true) {
                 String resp = HttpUtils.generateRequest("http://ip.cn").doGet();
-                System.out.println("数据流的产生是在:" + Thread.currentThread().getName());
+                System.out.println("数据流的产生是在:" + Thread.currentThread().getName() + "   <------- " + (i++));
                 t.onNext(resp);
-                if (i == 2) {
-                    t.onComplete();
-                }
+                //Thread.sleep(3000);
             }
-        })
-                .subscribeOn(Schedulers.computation())
-                //将流切换到一个新线程
-                .map((s) -> {
-                    System.out.println(Thread.currentThread().getName() + "  <--  管道中1");
-                    return s = "---->" + s;
-                })
-                .observeOn(Schedulers.newThread())
-                .map((s) -> {
-                    System.out.println(Thread.currentThread().getName() + "  <--  管道中2");
-                    return s = "---->" + s;
-                })
-                .observeOn(Schedulers.io())
-                .map((s) -> {
-                    System.out.println(Thread.currentThread().getName() + "  <--  管道中2");
-                    return s = "---->" + s;
-                })
-                //下面这个subscribeOn完全无效。
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<Object>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        System.out.println("执行订阅");
-                    }
+        }, BackpressureStrategy.BUFFER)
+            //.subscribeOn(Schedulers.io())
+            .parallel()
+            .map((s) -> {
+                System.out.println(Thread.currentThread().getName() + "  <--  管道中1");
+                return s = "--1-->" + s;
+            })
+            .map((s) -> {
+                System.out.println(Thread.currentThread().getName() + "  <--  管道中2");
+                return s = "--2-->" + s;
+            })
+            .map((s) -> {
+                System.out.println(Thread.currentThread().getName() + "  <--  管道中3");
+                return s = "--3-->" + s;
+            })
+            .sequential()
+            .subscribe((t)->{
+                System.out.println(Thread.currentThread().getName() + "  <--  订阅者");
+                System.out.println(t.toString());
+            });
 
-                    @Override
-                    public void onNext(Object o) {
-                        System.out.println(Thread.currentThread().getName() + "  <--  订阅者");
-                        System.out.println(o.toString());
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        System.out.println("----------------------");
-                    }
-                });
-
-        Thread.sleep(8000);
+        System.in.read();
         System.out.println("主线程结束");
     }
 }
