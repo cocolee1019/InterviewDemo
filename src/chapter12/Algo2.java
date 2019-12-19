@@ -1,6 +1,5 @@
 package chapter12;
 
-import org.graalvm.compiler.nodes.calc.RightShiftNode;
 
 /**
  * 输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。
