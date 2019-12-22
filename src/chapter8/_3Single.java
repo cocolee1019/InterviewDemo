@@ -1,5 +1,8 @@
 package chapter8;
 
+import io.reactivex.rxjava3.core.BackpressureStrategy;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 
 /**
@@ -22,5 +25,11 @@ public class _3Single {
             emitter.onSuccess("sssssssssssss");
         }).subscribe(System.out::println);
 
+        Flowable.create(t->t.onNext("hello"), BackpressureStrategy.BUFFER).subscribe(System.out::println);
+        Observable.create(t->t.onNext("hello")).subscribe(System.out::println);
+
+        Flowable.generate(t->{
+            t.onNext("hello");
+        }).subscribe(System.out::println);
     }
 }
