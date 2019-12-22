@@ -1,8 +1,9 @@
 package chapter13;
 
 import com.pinyougou.sellergoods.service.GoodsService;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.core.io.ClassPathResource;
 
 /**
  * 也学了这么久的Dubbo，今天写一个Spring项目和Spring Boot项目来检验一下成果。
@@ -11,13 +12,18 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * 第一步，先在Pom中将Spring5.2引入。
  * 第二步，在pom中引入Dubbo和Zookeeper客服端。
  * 第三个，配置chapter13_applicationContext.xml，在xml中声明远程调用。
+ *
+ * 改造一下：
+ * 将ClassPathXmlApplicationContext类改造为BeanFactory工厂。
+ *
  */
 public class ConsumerDubbo {
 
     public static void main(String[] args) {
 
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("chapter13/chapter13_applicationContext.xml");
-        GoodsService service = (GoodsService)ctx.getBean("goodsService");
+        //ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("chapter13/chapter13_applicationContext.xml");
+        BeanFactory factory =  new XmlBeanFactory(new ClassPathResource("chapter13/chapter13_applicationContext.xml"));
+        GoodsService service = (GoodsService)factory.getBean("goodsService");
         System.out.println(service.findAll());
     }
 
