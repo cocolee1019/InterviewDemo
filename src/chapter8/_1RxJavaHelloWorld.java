@@ -10,7 +10,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  * 响应式编程学习 <br>
  * 开始学习响应式编程时，带着下面几个疑问：<br>
  * 1、响应式编程能为我们带来什么好处？<br>
- *    1.1、响应式编程是非阻塞式编程方法。非阻塞式的优化是服务器可以处理更多的客户端请求。
+ *    1.1、响应式编程是非阻塞式编程方法。非阻塞式的优化使服务器可以处理更多的客户端请求。
  *    1.2、流式编程方式。流式编程可以使程序员专注于业务逻辑处理，而不用关注数据来源，并且使代码更清晰。
  * 2、响应式编程的使用场景。
  * <p></p>
@@ -21,9 +21,13 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  * <p>
  *
  * 3、入门学习之理解Observable。
- *    答：Observable是可观察者，调用Observable.create(emmit)创建一个可观察者。
+ *    Observable是可观察者，调用Observable.create(emmit)创建一个可观察者。
  *       使用Observable.subscribe(参数)订阅它。里头的参数是emmit的实例。
+ *       Observable不可背压，所以也不能使用并行流。
  *
+ * 4、入门学习之理解Flowable。
+ *    Flowable与Observable大致一样，用于创建一个流。不同的是，Flowable支持背压操作，
+ *    所以也支持并行流。
  */
 public class _1RxJavaHelloWorld {
 
