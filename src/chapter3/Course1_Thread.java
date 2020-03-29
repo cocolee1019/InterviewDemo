@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
  * <p>
  * <p>
  * 问题：
- *  1、调用Object.wait后，会释放当前monitor的锁吗？
+ * 1、调用Object.wait后，会释放当前monitor的锁吗？
  * 答：会释放Object的monitor，即表示其它线程的同步块使用了相同的Object为锁时，
  * 可以进入了。当其它线程调用Object.notify后，且其它线程已退出同步代码块或同步代码方法后，
  * monitor所在线程状态会重新抢占CPU时间。
@@ -43,17 +43,52 @@ import java.util.concurrent.TimeUnit;
  * <p>
  * 5、如何使一个在循环的线程退出？
  * 答：1、调用该线程的interrupt方法，该方法会设置线程退出的标志位为退出，然后在线程中调用isInterrupted方法，判断标志位
- *    是否已被设置为中断，如果为中断则退出循环。
- *    2、当有异常未被捕获时，也会使线程退出。
+ * 是否已被设置为中断，如果为中断则退出循环。
+ * 2、当有异常未被捕获时，也会使线程退出。
+ *
+ * 复盘：
+ * 1、关于wait的一些问题， 前面说到，wait会释放monitor锁，但没具体说明wait怎么用的？用于什么情景。
+ * Object.wait()方法文档含义是：Causes the current thread to wait(使当前线程等待)，until another thread invokes the
+ * notify() method or the notifyAll() method for this object.（直到其它线程调用该对象的notify()或者notifyAll()）。
+ * <b>The current thread must own this object's monitor.（当前线程必需拥有该对象的monitor锁）</b>
+ * the thread releases ownership of this monitor and waits until another thread notifies threads waiting on this
+ * object`s monitor to wake up either through a call to the notify method or the notifyall method.
+ *
+ * This method should only be called by a thread that is the owner of this object's monitor.
+ *
+ * 由上述描述可知：wait与/notify nofityall是一对。
+ * wait被用于多个线程之间<b>条件等待</b>的一种实现，调用wait必须保证当前线程已获得目标object的monitor锁。
+ * wait被执行后，当前线程将进行休眠，直到目标object的notify或notifyall方法被执行。
+ *
+ * 猜想1：根据上面文档描述“causes the current thread to wait”是不是只要是当前线程中的任何对象调用wait方法，都会使当前线程进入等待状态？
+ * 结论：事实证明，出现这个猜想，一定是基础不合格，忘记了wait的使用场景。
+ *
+ * 2、notify()补充
+ *  先看文档：Wakes up a single thread that is waiting on this object's monitor.（唤醒单个正在等待monitor锁的线程）
+ *  If any threads are waiting on this object, one of them is chosen to be awakened.（如果所有线程都在等待，随机一个将被唤醒）
+ *  A thread waits on an object's monitor by calling one of the wait methods.（线程调用wait()进入等待object的monitor状态）
+ *  The awakened thread will not be able to proceed until the current thread relinquishes the lock on this object.
+ *  （被唤醒的线程不一定能执行，直到当前线程放弃在object上的锁。）The awakened thread will compete in the usual manner with
+ *  any other threads that might be actively competing to synchronize on this object;（被唤醒的线程将会与其它监视object锁
+ *  进入synchronized块的线程竞争）
+ *
+ *  <b>This method should only be called by a thread that is the owner of this object's monitor.</b>
+ *
  */
 public class Course1_Thread {
 
     public static void main(String[] args) throws InterruptedException {
-//		main1();
+//        main1();
 //		main2();
 //		main3();
 //        main4();
-        main5();
+//        main5();
+        main6();
+    }
+
+    private static void main6() {
+        //猜想1：会不会当前线程任何一个对象调用wait方法，都会使线程等待？
+        new Thread(Course1_Thread::sayHello5).start();
     }
 
     private static Object lock = new Object();
@@ -134,13 +169,12 @@ public class Course1_Thread {
         t1.start();
         t2.start();
         int i = 0, j = 0;
-        while (t1.getState() != Thread.State.TERMINATED || t2.getState() != Thread.State.TERMINATED) {
 
-            int k = 0;
-            while (k++ <= 1000000000L) ;
+        int k = 0;
+        while (k++ <= 1000000000L) ;
 
-            System.out.printf("线程%s的状态%s\n", t1.getName(), t1.getState().name());
-            System.out.printf("线程%s的状态%s\n", t2.getName(), t2.getState().name());
+        System.out.printf("线程%s的状态%s\n", t1.getName(), t1.getState().name());
+        System.out.printf("线程%s的状态%s\n", t2.getName(), t2.getState().name());
 //			if(t1.getState() == Thread.State.WAITING && i++ == 3) {
 //				//阻塞三秒后解锁
 //				synchronized(lock) {
@@ -154,7 +188,6 @@ public class Course1_Thread {
 //					lock.notify();
 //				}
 //			}
-        }
     }
 
     /**
@@ -196,8 +229,11 @@ public class Course1_Thread {
         Thread currentThread = Thread.currentThread();
         synchronized (lock) {
             try {
+
                 System.out.println("使线程等待：" + currentThread.getName());
-                lock.wait(5000);
+                String s = new String();
+                s.wait(5000);
+                //lock.wait(5000);
                 System.out.println(currentThread.getName() + "被唤醒，状态为：" + currentThread.getState().name());
             } catch (Exception e) {
                 e.printStackTrace();
@@ -237,5 +273,24 @@ public class Course1_Thread {
         }
         System.out.println("工作完成");
         System.out.println("hello~");
+    }
+
+
+    /**
+     * 验证复盘时的猜想1
+     */
+    private static void sayHello5() {
+        try {
+            final String s = new String();
+            synchronized (s) {
+                System.out.println(Thread.currentThread().getName() + "进入");
+                //等待10s
+                s.wait(10000);
+                s.notify();
+            }
+            System.out.println(Thread.currentThread().getName() + "结束");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
