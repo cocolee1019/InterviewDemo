@@ -23,7 +23,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * 答：如果第一、二次便已抢占成功，则不会建立Node结点，在释放时，会判断head的waitStatus信号值，如果被设置成了
  *    小于0的值，则表示队列还有结点在等待，需要唤醒队列中的结点。
  *    如果当前线程进入队列，便需要排队了。
- * 
+ *
  * 
  * 大神关于ReentranLock的讲解：https://blog.csdn.net/lsgqjh/article/details/63685058
  */
@@ -34,26 +34,21 @@ public class Course3_ReentrantLock {
 	public static void main(String[] args) {
 		Thread t1 = new Thread(Course3_ReentrantLock::doSomethins);
 		Thread t2 = new Thread(Course3_ReentrantLock::doSomethins);
-		
+
 		t1.start();
 		t2.start();
 
 
 	}
 	
-	
+
+	static int i = 0;
 	public static void doSomethins() {
-		
 		Thread currentThread = Thread.currentThread();
-		
-		
 		try {
 			lock.lock();
-			System.out.println(currentThread.getName() + "获得锁");
-			Thread.sleep(500000);
+			i ++;
 			lock.unlock();
-		}catch (Exception e) {
-			e.printStackTrace();
 		}finally {
 			if(lock.isLocked()) 
 				lock.unlock();
