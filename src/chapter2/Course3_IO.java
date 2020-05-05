@@ -1,8 +1,6 @@
 package chapter2;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * IO：java.io下的包，基于流模型实现，交互是同步、阻塞的。
@@ -11,7 +9,8 @@ import java.io.IOException;
  * 	InputStream的read方法中的数据存入到buf中，每次会读取8192个字符（默认的，也可以自己指定），然后bufferedInputStream.read
  * 	会从字节数组中读出数据。
  * BufferedOutputStream也是同理，有一个缓冲字节用于存放待写入的字符，当字节数组要满的时候，会调用flushBuffer将数组刷新到磁盘。
- * 
+ * ByteArrayInputStream，允许将内存缓冲区当作InputStream使用。
+ *
  * NIO：在java 1.4之后引入的包，提供了Channel、Selector、Buffer等更新的抽象，
  * 可以构建多路复用，同步非阻塞的I/O程序，同时也提供了更接近底层的高性能数据操作方式。
  * NIO组成部分：
@@ -23,14 +22,19 @@ import java.io.IOException;
  * 			 在linux上依赖于epoll。
  * 
  * AIO：异步非阻塞IO。在1.7中引入，异步非阻塞IO基于事件机制和回调机制。
- * 
+ *
+ *
+ * 问题1：怎么理解"ByteArrayInputStream，允许将内存缓冲区当作InputStream使用。"
+ *  所谓内存缓冲区，其实就是指java的堆空间。ByteArrayInputStream的数据源是字节数组。
+ *
  */
 public class Course3_IO {
 
 	public static void main(String[] args) throws IOException {
-		ioDemo("/home/cocolee/文档/a.txt");
+//		ioDemo("/home/cocolee/文档/a.txt");
+		byteArrayDemo();
 	}
-	
+
 	public static void ioDemo(String args0) throws IOException {
 		//无缓冲
 		try(FileInputStream fin = new FileInputStream(args0);) {
@@ -50,6 +54,31 @@ public class Course3_IO {
 			while(bin.read(buff) != -1) {
 				System.out.println((char) buff[0]);
 			}
+		}
+	}
+
+	private static void byteArrayDemo() {
+		byte[] buffs = "byteArrayInputStream".getBytes();
+		ByteArrayInputStream inputStream = new ByteArrayInputStream(buffs);
+		int read ;
+		while ((read = inputStream.read()) != -1) {
+			System.out.print((char)read);
+		}
+	}
+
+	private static void stringBufferDemo() {
+		StringBufferInputStream inputStream = new StringBufferInputStream("byteArrayInputStream");
+		int read ;
+		while ((read = inputStream.read()) != -1) {
+			System.out.print((char)read);
+		}
+	}
+
+	private static void fileInputStreamDemo() throws IOException {
+		FileInputStream inputStream = new FileInputStream("c:/Desktop/a.TXT");
+		int read ;
+		while ((read = inputStream.read()) != -1) {
+			System.out.print((char)read);
 		}
 	}
 }
