@@ -1,9 +1,6 @@
 package chapter3;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * 线程池的学习
@@ -14,9 +11,12 @@ import java.util.concurrent.TimeUnit;
  */
 public class Course7_Executor {
 
-    public static void main(String[] args) {
-        Executor executor = new ThreadPoolExecutor(5, 20, 5, TimeUnit.SECONDS, new ArrayBlockingQueue(100));
+    public static void main(String[] args) throws InterruptedException, ExecutionException, TimeoutException {
+        ExecutorService executor = new ThreadPoolExecutor(5, 20, 5, TimeUnit.SECONDS, new ArrayBlockingQueue(100));
 
+        executor.submit(() -> {}).get(1, TimeUnit.SECONDS);
+
+        ExecutorCompletionService completionService = new ExecutorCompletionService(executor);
     }
 
 }
