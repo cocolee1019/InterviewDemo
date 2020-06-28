@@ -1,6 +1,6 @@
 package chapter13;
 
-import com.pinyougou.sellergoods.service.GoodsService;
+//import com.pinyougou.sellergoods.service.GoodsService;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -23,8 +23,8 @@ public class ConsumerDubbo {
 
         //ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("chapter13/chapter13_applicationContext.xml");
         BeanFactory factory =  new XmlBeanFactory(new ClassPathResource("chapter13/chapter13_applicationContext.xml"));
-        GoodsService service = (GoodsService)factory.getBean("goodsService");
-        System.out.println(service.findAll());
+//        GoodsService service = (GoodsService)factory.getBean("goodsService");
+//        System.out.println(service.findAll());
     }
 
 }

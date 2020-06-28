@@ -1,9 +1,14 @@
 package chapter8;
 
+import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Stream;
 
 /**
  * 并发， 只有Flowable才可以并发。
@@ -17,7 +22,7 @@ import java.util.Random;
  */
 public class _4Parallel {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
 //        Observable.fromArray(new String[]{"a", "b", "c"})
 //                .subscribe((t) -> {
@@ -41,12 +46,11 @@ public class _4Parallel {
             concatMap:映射和运行每一个item, 每次一个内部流
             concatMapEager “一次”运行所有内部流，但输出流将按照创建这些内部流的顺序进行。
          */
-        /*Flowable.range(1, 10)
+       /* Flowable.range(1, 10)
                 .flatMap(x->
-                    Flowable.just(x)
-                        .observeOn(Schedulers.computation())
-                        .map(n -> n*n)
-                )
+                        Flowable.just(x)
+                                //.observeOn(Schedulers.computation())
+                                .map(n -> n*n))
                 .blockingSubscribe(System.out::println);
 
         System.out.println("----------x---------");*/
@@ -67,8 +71,10 @@ public class _4Parallel {
             并不会等待消费者处理完数据才开始新的数据，所以结果会出现乱序。
 
             但这不是并发，因为本质上来说在source中的顺序是one by one模式的。
+
+            难道并发则不是one by one吗？
          */
-        Observable.create(source -> {
+        /*Observable.create(source -> {
             Random r = new Random();
             int i = 0;
             while(i < 50) {
@@ -86,6 +92,31 @@ public class _4Parallel {
                     return x * x;
                 }).subscribe(o -> {
                     System.out.println("====>" + o + "<====");
-                });
+                });*/
+
+        /*
+             map与flatMap的区别：
+
+             1、map是直接变换，将对象a变换成目标b。
+             2、flatMap是将对象a再一次应用一个Flowable，并将Flowable返回。
+         */
+        Flowable.range(1, 10)
+                .map(x-> {
+                    System.out.println("map -> " + x);
+                    return x*x;
+                })
+                .subscribe(System.out::println);
+
+        System.out.println("-----------");
+
+        Flowable.range(1, 10)
+                .flatMap(x -> {
+                    System.out.println("flatMap -> " + x);
+                    return Flowable.just(x).map(t -> {
+                        System.out.println("callBack flatMap -> " + t);
+                        return t * t;
+                    });
+                }).blockingSubscribe(System.out::println);
+
     }
 }
