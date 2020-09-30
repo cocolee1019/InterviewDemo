@@ -6,10 +6,10 @@ import java.util.HashMap;
  * hashMap源码笔记
  * 1、HashMap的底层数据结构是什么？
  *  Node结点数组：Node<K,V>[] table， 这个数组是延迟初始化的。
- *
+ *  Node链表
  *
  * 2、resize方法是什么逻辑？
- * 用于初始华table或者扩容，每次扩容的长度都是原长度的2倍，初始化是16（1<4）
+ * 用于初始化table或者扩容，每次扩容的长度都是原长度的2倍，初始化是16（1<4）
  * 如果是初始化，则直接返回，如果是扩容，旧数组中的元素则需要迁移重新hash到新的数组。
  *
  * 3、当Node数组占的下标不为null时，HashMap是如何解决冲突的？
@@ -34,9 +34,9 @@ import java.util.HashMap;
  *  6、resize链表结构在重构时是如何重新对旧元素定位的？
  *      假如Node的next为null，则重新用key的hash定位，如果Node的next不为null，则需要借助oldCap判断新的位置是否需要加一倍。
  *
- *
- *
- *
+ *  7、在处理hash冲突时，node结点是如何插入链表中的？
+ *     红黑树结点插入方式：putTreeVal
+ *     链表插入方式：jdk版本 >= 8.0时，是尾插法。 jdk 7是头插法（新结点放在头部）
  *
  */
 public class HashMapDemo {
