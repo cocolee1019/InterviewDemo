@@ -6,7 +6,9 @@ import java.util.concurrent.*;
  * 线程池的学习
  *
  * 1、Executor层次设计。
- * Executor为顶层接口。其常用的子类有：ThreadPoolExecutor
+ * Executor为顶层接口。
+ * ExecutorService子接口：线程池的主要接口
+ * 其常用的子类有：ThreadPoolExecutor
  *
  */
 public class Course7_Executor {

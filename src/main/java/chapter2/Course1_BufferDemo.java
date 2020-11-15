@@ -20,6 +20,8 @@ import java.nio.ByteBuffer;
  * 直接缓冲区：通过allocateDirect()方法直接分配缓冲区，将缓冲区建立在物理内存中。
  *
  * 问题1：Buffer的作用是什么?
+ * NIO有三大概念：Buffer、Channel、Selector。
+ * Buffer是在Channel中传输的数据的来源或目标，换句话说就是Buffer中的数据，将会在Channel中传输。
  *
  */
 public class Course1_BufferDemo {

@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
  * 答：调用Thread.sleep后，线程状态为TIMED_WAITING。在同步块中调用sleep方法，不会释放锁。
  *
  * <p>
- * 4、为什么Thread.stop、Thread.suspend和Thread.resume会过期？
+ * 4、为什么Thread.stop、Thread.suspend和Thread.resume会被标记为过期？
  * 答：suspend不会释放monitor锁，容易造成线程死锁的状况。例如a线程锁定Object后，被suspend，b线程要resume a线程，
  * 但是在resume之前，又要请求Object的锁，此时便会造成死锁。
  * stop会在线程任何位置抛出异常，使线程中止。这便会出现很多问题，比如在线程finally中释放资源时抛出ThreadDeath异常，
@@ -74,6 +74,10 @@ import java.util.concurrent.TimeUnit;
  *
  *  <b>This method should only be called by a thread that is the owner of this object's monitor.</b>
  *
+ *  2020-11-15
+ *  线程调用wait方法后，会释放当前锁，并且进入休眠状态，等待其它线程调用notify方法，如果该线程被重新唤起，他是重新进入synchronized
+ *  块还是从休眠的部分执行？
+ *  答：由经验得知，是从休眠部分被重新唤起。
  */
 public class Course1_Thread {
 
