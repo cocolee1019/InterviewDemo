@@ -57,7 +57,8 @@ class StaticClassDemo {
 	public class InnerClass {
 		private int id;
 		private String name;
-	
+
+
 		public InnerClass() {
 			System.out.println("构造非静态InnerClass");
 			System.out.println(x + "," + y);
