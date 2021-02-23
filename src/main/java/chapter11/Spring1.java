@@ -20,18 +20,14 @@ import javax.annotation.Resource;
  *
  */
 @Configuration
-@ComponentScan("chapter11")
 public class Spring1 {
 
 
-    @Resource
-    @Autowired
-    private A a;
-
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("main/java/chapter11");
-        Object a = context.getBean("a");
-        System.out.println(a);
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("chapter11");
+        context.start();
+        final A bean = context.getBean(A.class);
+        System.out.println(bean);
     }
 
 }
@@ -52,7 +48,7 @@ class B {
 /**
  * BeanFactoryPostProcess接口，用于在初始化bean之前，获取BeanFactory，然后对Bean进行一系引自定义改动。
  */
-@Component
+//@Component
 class BeanFactoryPostProcessorImpl1 implements BeanFactoryPostProcessor {
 
     @Bean()
