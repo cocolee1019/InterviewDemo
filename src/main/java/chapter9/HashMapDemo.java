@@ -61,6 +61,7 @@ public class HashMapDemo {
         map.put("15", "");
 
         map.get("1");
+        map.put("1", 2);
 //        for (int i=11; i<1000; i++) {
 //            map.put(i + "", "");
 //        }
