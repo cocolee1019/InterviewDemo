@@ -17,12 +17,24 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  *
  *  三、ConfigurableApplicationContext：从ApplicationContext、LifeCycle继承。
  *
+ *  四、ResourceLoader：将给定的资源路径文件，解析成Resource对象
+ *  Strategy interface for loading resources (e.. class path or file system resources).
+ *  ApplicationContext需要提供此功能，以及扩展ResourcePatternResolver。DefaultResourceLoader是一个可以在
+ *  ApplicationContext之外使用的独立实现，也可以由ResourceEditor使用。当在ApplicationContext中运行时，
+ *  可以使用特定上下文的资源加载策略，从字符串填充类型为Resource和Resource array的Bean属性。
+ *
+ * 五、ResourcePatternResolver：扩展于ResourceLoader，解析本地pattern（）到Resource对象的策略接口。
+ *
+ * =============================================================================================
+ *
+ * 六、ApplicationEventPublisher：封装事件发布功能的接口。用作ApplicationContext的超级接口。
  *
  */
+
 public class Course2_SpringAnalysis {
 
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("main/java/chapter11");
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("chapter11");
 
 
     }
