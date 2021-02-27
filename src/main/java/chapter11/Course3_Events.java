@@ -13,7 +13,7 @@ package chapter11;
  * RequestHandledEvent：一个特定于web的事件，告诉所有Bean HTTP请求已得到服务，请求完成后，将发布该事件。
  * ServletRequestHandledEvent：该类的子类RequestHandleEvent添加了特定于Servlet的上下文信息。
  *
- * 三、事件的继承关系：
+ * 三、事件的定义：
  * EventObject  ->  ApplicationEvent ->  ApplicationContextEvent  ->   ContextRefreshedEvent
  * ps：ApplicationContextEvent构造方法传入一个ApplicationContext。
  *
