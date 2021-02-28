@@ -24,6 +24,8 @@ public class Spring1 {
 
 
     public static void main(String[] args) {
+
+
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("chapter11");
         context.start();
         final A bean = context.getBean(A.class);
