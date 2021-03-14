@@ -7,7 +7,7 @@ package chapter12;
  *
  * 这道题和算法无关，因为当天卖出后，当天又可以买入，就是一个最大利润的问题，直接将利润累加即可。
  */
-public class LeetCode_MaxProfit {
+public class LeetCode_MaxProfit2 {
 
     public static void main(String[] args) {
         int[] nums = {7,6,4,3,1};
