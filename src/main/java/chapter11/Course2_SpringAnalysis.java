@@ -12,7 +12,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * 二、ApplicationContext：中央接口，为应用程序提供配置。并且有下列五个能力：
  *      1、用于访问应用程序组件的bean工厂方法，继承至ListableBeanFactory。
  *      2、以通用方式加载文件资源的能力，继承至ResourceLoader
- *  *      3、发布事件到监听器的能力，继承至ApplicationEventPublisher
+ *      3、发布事件到监听器的能力，继承至ApplicationEventPublisher
  *      4、解析信息、支持国际化的能力，继承至MessageSource接口
  *      5、从父context继承。 在子context中的定义将始终优先。
  *
