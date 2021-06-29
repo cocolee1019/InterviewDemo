@@ -24,6 +24,6 @@ public class StreamDemo {
         Integer[] arr = new Integer[]{1, 2, 3, 4, 5, 6};
         Arrays.stream(arr).map(i -> i * i).collect(Collectors.toList()).forEach(System.out::println);
 
-
+        Arrays.asList(arr).parallelStream().collect(Collectors.toList());
     }
 }
