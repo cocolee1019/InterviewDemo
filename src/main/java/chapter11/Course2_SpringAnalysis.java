@@ -41,9 +41,13 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class Course2_SpringAnalysis {
 
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("chapter11");
+//        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("chapter11");
 
-        ClassPathXmlApplicationContext context1 = new ClassPathXmlApplicationContext("");
+        System.setProperty("spring", "classpath");
+        ClassPathXmlApplicationContext context1 = new ClassPathXmlApplicationContext("${spring}:chapter11/applicationContext.xml");
+        context1.start();
+        final Object testBean = context1.getBean("testBean");
+        context1.close();
 
         context.start();
     }
