@@ -45,5 +45,6 @@ public class Course2_SpringAnalysis {
 
         ClassPathXmlApplicationContext context1 = new ClassPathXmlApplicationContext("");
 
+        context.start();
     }
 }
