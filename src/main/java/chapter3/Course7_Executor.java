@@ -16,12 +16,16 @@ import java.util.concurrent.*;
  * 什么是有界队列、什么是无界队列？
  * 1、有上限的队列，如ArrayBlockingQueue、LinkBlockingQueue等
  * 2、无上限的队列，如DelayQueue
+ *
+ * submit与execution的区别？
+ * 答：submit会包装一个RunnableFuture对象，目的是为了执行结束后，返回Feature对象。本质还是调用了execute
  */
 public class Course7_Executor {
 
     public static void main(String[] args) throws InterruptedException, ExecutionException, TimeoutException {
         ExecutorService executor = new ThreadPoolExecutor(5, 20, 5, TimeUnit.SECONDS, new ArrayBlockingQueue(100));
         executor.submit(() -> {}).get(1, TimeUnit.SECONDS);
+        executor.execute(() -> {});
         ExecutorCompletionService completionService = new ExecutorCompletionService(executor);
     }
 
