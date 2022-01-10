@@ -49,6 +49,6 @@ public class Course2_SpringAnalysis {
         final Object testBean = context1.getBean("testBean");
         context1.close();
 
-        context.start();
+//        context.start();
     }
 }

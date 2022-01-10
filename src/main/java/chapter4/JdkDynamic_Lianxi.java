@@ -1,6 +1,6 @@
 package chapter4;
 
-import sun.misc.ProxyGenerator;
+//import sun.misc.ProxyGenerator;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -50,14 +50,14 @@ class ProxyClass implements InvocationHandler {
 
 
     public void a() throws IOException {
-        int accessFlags = Modifier.PUBLIC | Modifier.FINAL;
-
-        byte[] proxyClassFile = ProxyGenerator.generateProxyClass(
-                "MyClass", WineSell.class.getInterfaces(), accessFlags);
-
-        OutputStream out = new FileOutputStream("D:/MyClass.class");
-        out.write(proxyClassFile);
-        out.close();
+//        int accessFlags = Modifier.PUBLIC | Modifier.FINAL;
+//
+//        byte[] proxyClassFile = ProxyGenerator.generateProxyClass(
+//                "MyClass", WineSell.class.getInterfaces(), accessFlags);
+//
+//        OutputStream out = new FileOutputStream("D:/MyClass.class");
+//        out.write(proxyClassFile);
+//        out.close();
     }
 }
 
