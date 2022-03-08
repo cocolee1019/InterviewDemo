@@ -25,7 +25,7 @@ public class LeetCode_ThreeSum {
 
 
     public static void main(String[] args) {
-        System.out.println(threeSum(new int[]{-4,-2,-2,-2,0,1,2,2,2,3,3,4,4,6,6}));
+        System.out.println(threeSum(new int[]{-2,-3,0,0,-2}));
     }
 
     /**
@@ -74,6 +74,7 @@ public class LeetCode_ThreeSum {
      * 3、若两数相邻，则可以跳过两数之后的逻辑运算
      * 4、双指针的思路：在求两数之和时，左指针往右移（右指针固定），若两数之和匹配，则记录，右指针则往左移一位（匹配不上右指针也往左移）
      *
+     *
      * @param nums
      * @return
      */
@@ -82,35 +83,42 @@ public class LeetCode_ThreeSum {
         List<List<Integer>> result = new ArrayList();
 
         for (int i = 0; i < nums.length - 2 && nums[i] < 0; i++) {
-            while (nums[i] == nums[i + 1] && nums[i + 1] == nums[i + 2] && nums[i] < 0) {
-                i++;
+            //处理三数相同的情况
+            while (i + 2 < nums.length && nums[i] == nums[i + 1] && nums[i + 1] == nums[i + 2]) {
+                i ++;
             }
 
             int target = 0 - nums[i];
             int lp = i + 1, rp = nums.length - 1;
             while (lp < rp) {
-                if (target == nums[lp] + nums[rp]) {
+
+                if (nums[lp] + nums[rp] == target) {
                     result.add(Arrays.asList(nums[i], nums[lp], nums[rp]));
                     lp++;
                     rp--;
 
-                    while (lp + 1 < nums.length && nums[lp] == nums[lp + 1] && nums[lp] < target) {
-                        lp ++;
+                    while (lp < rp && nums[rp] == nums[rp + 1]) {
+                        rp--;
                     }
-                    while (nums[rp] == nums[rp - 1] && nums[rp] > target) {
-                        rp --;
+                    while (lp < rp && nums[lp] == nums[lp - 1]) {
+                        lp++;
                     }
-
-                } else if (target < nums[lp] + nums[rp]) {
+                } else if (nums[lp] + nums[rp] > target) {
                     rp--;
+                    while (lp < rp && nums[rp] == nums[rp + 1]) {
+                        rp--;
+                    }
                 } else {
                     lp++;
+                    while (lp < rp && nums[lp] == nums[lp - 1]) {
+                        lp++;
+                    }
                 }
             }
 
-            //跳一个过去
-            if (nums[i] == nums[i + 1] && nums[i] < 0) {
-                i++;
+            //当两数相同时，往前
+            if (i + 1 < nums.length && nums[i] == nums[i + 1]) {
+                i ++;
             }
         }
 
