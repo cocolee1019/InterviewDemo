@@ -30,7 +30,7 @@ public class LeetCode_increasingTriplet {
 
     /**
      * 思路：
-     * 用二个数组，分别记录距离为1的下标、距离为2的下标
+     * 尽量使dp2最小
      *
      * @param nums
      * @return
