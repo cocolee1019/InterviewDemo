@@ -17,11 +17,11 @@ public class LeetCode_TwoSum {
     }
 
     public static int[] twoSum(int[] nums, int target) {
-        int result[] = new int[2];
+        int[] result = new int[2];
         int[] tmp = new int[nums.length];
         for (int i = 0; i < nums.length; i++) {
             tmp[i] = target - nums[i];
-            for (int j = i-1; j >= 0; j--) {
+            for (int j = i - 1; j >= 0; j--) {
                 if (tmp[j] == nums[i]) {
                     result[0] = j;
                     result[1] = i;

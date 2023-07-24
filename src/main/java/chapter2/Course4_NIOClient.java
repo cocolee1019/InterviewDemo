@@ -48,6 +48,7 @@ public class Course4_NIOClient {
         //6、轮询获取选择器上已经准备就绪的事件
         int i;
         while (selector.select() > 0) {
+            System.out.println("轮询");
             //7、获取所有事件的key
             Iterator<SelectionKey> it = selector.selectedKeys().iterator();
             while (it.hasNext()) {
@@ -101,4 +102,5 @@ public class Course4_NIOClient {
         accept.close();
         serverSocketChannel.close();
     }
+
 }
