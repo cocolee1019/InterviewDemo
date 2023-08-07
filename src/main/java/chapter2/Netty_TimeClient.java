@@ -7,6 +7,9 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import io.netty.handler.codec.LineBasedFrameDecoder;
+import io.netty.handler.codec.string.StringDecoder;
 
 /**
  * @author luwu
@@ -24,6 +27,8 @@ public class Netty_TimeClient {
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
+                            socketChannel.pipeline().addLast(new LineBasedFrameDecoder(1024));
+                            socketChannel.pipeline().addLast(new StringDecoder());
                             socketChannel.pipeline().addLast(new TimeClientHandler());
                         }
                     });
@@ -38,21 +43,27 @@ public class Netty_TimeClient {
     public static void main(String[] args) throws InterruptedException {
         int port = 9999;
         new Netty_TimeClient().connect(port, "127.0.0.1");
-
     }
 
     private class TimeClientHandler extends ChannelInboundHandlerAdapter {
-        private final ByteBuf firstMessage;
 
-        public TimeClientHandler () {
-            byte[] req = "hello world".getBytes();
-            firstMessage = Unpooled.buffer(req.length);
-            firstMessage.writeBytes(req);
-        }
-
+        /**
+         * 当客户端和服务端TCP链路建立成功后，Netty的NIO线程会调用该方法
+         * @param ctx
+         * @throws Exception
+         */
         @Override
         public void channelActive(ChannelHandlerContext ctx) throws Exception {
-            ctx.writeAndFlush(firstMessage);
+
+            for (int i = 1; i <= 100; i++) {
+                ByteBuf firstMessage;
+                byte[] req = ("QUERY TIME" + System.getProperty("line.separator")).getBytes();
+                firstMessage = Unpooled.buffer(req.length);
+                firstMessage.writeBytes(req);
+                ctx.writeAndFlush(firstMessage);
+            }
+
+            System.out.println("发送消息结束~");
         }
 
         @Override
