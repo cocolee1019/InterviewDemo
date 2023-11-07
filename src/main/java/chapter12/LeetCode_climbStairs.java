@@ -12,7 +12,9 @@ import java.util.Map;
 public class LeetCode_climbStairs {
 
     public static void main(String[] args) {
+        long l = System.currentTimeMillis();
         System.out.println(climbStairs2(44));
+        System.out.println("运行时间：" + (System.currentTimeMillis() - l));
     }
 
     static Map<Integer, Integer> map = new HashMap<>();
@@ -39,5 +41,15 @@ public class LeetCode_climbStairs {
             a[i] = a[i-1] + a[i-2];
         }
         return a[n];
+    }
+
+    static int reg(int n) {
+
+        if (0 == n)
+            return 1;
+        if (0 > n)
+            return 0;
+
+        return reg(n - 1) + reg(n - 2);
     }
 }

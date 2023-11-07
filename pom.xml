@@ -18,6 +18,8 @@
 <!--            <layout>default</layout>-->
 <!--            &lt;!&ndash; 是否开启发布版构件下载 &ndash;&gt;-->
 <!--            <releases>-->
+
+
 <!--                <enabled>true</enabled>-->
 <!--            </releases>-->
 <!--            &lt;!&ndash; 是否开启快照版构件下载 &ndash;&gt;-->
