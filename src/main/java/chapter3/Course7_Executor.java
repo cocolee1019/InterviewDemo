@@ -25,8 +25,7 @@ public class Course7_Executor {
     public static void main(String[] args) throws InterruptedException, ExecutionException, TimeoutException {
         ExecutorService executor = new ThreadPoolExecutor(5, 20, 5, TimeUnit.SECONDS, new ArrayBlockingQueue(100));
         ((ThreadPoolExecutor)executor).allowCoreThreadTimeOut(true);
-
-        executor.submit(() -> {}).get(1, TimeUnit.SECONDS);
+        executor.submit(new FutureTask<String>(() -> "")).get(1, TimeUnit.SECONDS);
         executor.execute(() -> {});
         ExecutorCompletionService completionService = new ExecutorCompletionService(executor);
     }

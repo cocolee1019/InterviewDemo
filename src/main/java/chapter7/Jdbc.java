@@ -37,11 +37,11 @@ import java.sql.*;
  */
 public class Jdbc {
 
-    public static void main(String[] args) {
+    public static void main3(String[] args) {
         try {
 
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://172.16.10.232:3306/mobile_pro_4.0_whz?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC", "test", "1234");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mobile_pro_4.0_whz?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC", "test", "1234");
 
             //usage of Statement
             Statement statement = connection.createStatement();
@@ -80,6 +80,76 @@ public class Jdbc {
 
     private static void println(ResultSet resultSet) throws SQLException {
         System.out.println(resultSet.getLong(1) + ", " + resultSet.getString(2));
+    }
+
+    public static void main(String[] args) throws SQLException {
+        String jdbcUrl = "jdbc:mysql://192.168.2.38:3306/his_cloud_basic?characterEncoding=utf-8&serverTimezone=Asia/Shanghai";
+        String username = "ihospital";
+        String password = "W!AsxjG0QKno";
+
+        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
+            DatabaseMetaData metaData = connection.getMetaData();
+            String catalog = "his_cloud_basic"; // 如果使用的数据库支持多个数据库，可以指定数据库名称
+            String schema = null; // 数据库模式，通常为用户名
+
+            ResultSet tables = metaData.getTables(catalog, schema, null, new String[] { "TABLE" });
+
+            while (tables.next()) {
+                String tableName = tables.getString("TABLE_NAME");
+
+                // 查询表的注释
+                String sql = "SELECT table_name, table_comment " +
+                        "FROM information_schema.tables " +
+                        "WHERE table_schema = 'his_cloud_basic' and table_name = '" + tableName + "';";
+
+                try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                    ResultSet resultSet = statement.executeQuery();
+
+                    while (resultSet.next()) {
+                        String tableComment = resultSet.getString("table_comment");
+                        System.out.println("### **" + tableName + "** (" + tableComment + ")");
+
+                        System.out.println("\n| 字段 | 类型 | 含义 |\n" + "|:---|:---|:---|");
+                        // 查询表中每个字段的名称和注释
+                        String column_sql = "SELECT column_name,column_type, column_comment " +
+                                "FROM information_schema.columns " +
+                                "WHERE table_name = '" + tableName + "' AND table_schema = 'his_cloud_basic'";
+
+                        try (PreparedStatement statement2 = connection.prepareStatement(column_sql)) {
+                            ResultSet resultSet2 = statement2.executeQuery();
+
+                            while (resultSet2.next()) {
+                                String columnName = resultSet2.getString("column_name");
+                                String columnComment = resultSet2.getString("column_comment");
+                                String columnType = resultSet2.getString("column_type");
+                                System.out.println("|" + columnName + "|" + columnType + "|" + columnComment + "|");
+                            }
+                            System.out.println();
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+//        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
+//            Statement statement = connection.createStatement();
+//
+//            // 使用SHOW CREATE TABLE语句获取表的DDL
+//            String sql = "SHOW CREATE TABLE " + tableName;
+//            ResultSet resultSet = statement.executeQuery(sql);
+//
+//            if (resultSet.next()) {
+//                String ddl = resultSet.getString(2); // 第二列包含DDL
+//                System.out.println("Table DDL for " + tableName + ":\n" + ddl);
+//            } else {
+//                System.out.println("Table not found: " + tableName);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
     }
 
 }

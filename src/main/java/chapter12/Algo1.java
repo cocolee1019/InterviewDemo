@@ -6,21 +6,24 @@ package chapter12;
  */
 public class Algo1 {
 
-    public static void main(String[] args) {
-        int[] arr = {1,8,4,2,5,7,6,3,9};
-        for (int i=1; i<arr.length; i++) {
-            if (arr[i] % 2 == 1) {
-                int t = arr[i];
-                int j = i - 1;
-                while (j>=0 && arr[j]%2 == 0) {
-                    arr[j+1] = arr[j];
-                    j--;
+    class Solution {
+        int[] values = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+        String[] symbols = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+
+        public String intToRoman(int num) {
+            StringBuffer roman = new StringBuffer();
+            for (int i = 0; i < values.length; ++i) {
+                int value = values[i];
+                String symbol = symbols[i];
+                while (num >= value) {
+                    num -= value;
+                    roman.append(symbol);
                 }
-                arr[j+1] = t;
+                if (num == 0) {
+                    break;
+                }
             }
-        }
-        for (int i=0; i<arr.length; i++) {
-            System.out.print(arr[i]);
+            return roman.toString();
         }
     }
 }
