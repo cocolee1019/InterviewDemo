@@ -8,27 +8,25 @@ import java.util.Map;
 /**
  * 最长回文子串
  * 给你一个字符串 s，找到 s 中最长的回文子串。
- *
+ * <p>
  * 示例 1：
  * 输入：s = "babad"
  * 输出："bab"
  * 解释："aba" 同样是符合题意的答案。
- *
+ * <p>
  * 示例 2：
  * 输入：s = "cbbd"
  * 输出："bb"
- *
+ * <p>
  * 提示：
  * 1 <= s.length <= 1000
  * s 仅由数字和英文字母组成
- *
  * @author luwu
- * @date 2022/3/15 10:53
  */
 public class LeetCode_longestPalindrome {
 
     public static void main(String[] args) {
-        System.out.println(longestPalindrome2("aaaaa"));
+        System.out.println(longestPalindrome3("aacabdkacaa"));
     }
 
     /**
@@ -80,11 +78,11 @@ public class LeetCode_longestPalindrome {
     public static boolean palindrome(String s, int left, int right) {
         while (left < right) {
             if (s.charAt(left) != s.charAt(right)) {
-              break;
+                break;
             }
 
-            left ++;
-            right --;
+            left++;
+            right--;
         }
 
         if (left >= right) {
@@ -140,6 +138,58 @@ public class LeetCode_longestPalindrome {
             }
         }
         return s.substring(begin, begin + maxLen);
+    }
+
+    /**
+     * 2024年12月08号 <br>
+     * 动态规划法 <br>
+     * 心得：<br>
+     * 状态：dp[i][j]状态的含义，在本题中，表示str[i] 是否等于 str[j] <br>
+     * 转移方程：dp[i][j] = str[i] == str[j] and dp[i+1][j-1]
+     *         即,如果str[i]与str[j]相等，则需要确定str[i+1]与str[j-1]相等
+     *         转移方程可以理解为dp[i][j]的算法，意思是dp[i][j]如何求取。  <br>
+     *         在本题中，如果str[i] != str[j]，那么dp[i][j]=false， <br>
+     *         如果str[i] == str[j]，那么dp[i][j]=dp[i+1][j-1]（其实很好理解，如果dp[0][4]为true，表示str[0,4]为回文串，那么str[1,3]、str[2,2]都需要为回文串） <br>
+     * 其实有了状态和转移方程，相关代码就能写了。 <br>
+     * 有个点需要注意，在求dp[i][j]的时候，其实需要把dp[i+1][j-1]先求出来，这样才可赋值，否则会变成递归。<br>
+     * 另外一个要注意的点就是边界：即如果str[i] == str[j]，且i到j的长度<=3，那么dp[i][j]可以直接为true，因为aba（长度为3）或aa(长度为2)，都可表示回文。
+     *
+     * @param s
+     * @return
+     */
+    public static String longestPalindrome3(String s) {
+        if (s.length() < 2) {
+            return s;
+        }
+
+        // 状态d[i][j]表示s[i...j]是否回文
+        // 转移方程：d[i][j] = d[i+1][j-1]
+        // 边界：j-1 - (i+1) > 1 ==> j-i > 3
+        int length = s.length();
+        boolean[][] dp = new boolean[length][length];
+
+        // 处理对角线
+        for (int i = 0; i < length; i++) {
+            dp[i][i] = true;
+        }
+
+        int maxLen = 0;
+        int start = 0;
+        // 计算 aacabdkacaa
+        for (int j = 1; j < length; j++) {
+            for (int i = 0; i < j; i++) {
+                if (s.charAt(i) != s.charAt(j)) {
+                    dp[i][j] = false;
+                } else {
+                    dp[i][j] = j - i < 3 ? true : dp[i + 1][j - 1];
+                }
+                if (dp[i][j] && j - i + 1 > maxLen) {
+                    maxLen = j - i + 1;
+                    start = i;
+                }
+            }
+        }
+        return s.substring(start, maxLen + start);
     }
 
 }
